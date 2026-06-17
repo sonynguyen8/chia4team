@@ -1,0 +1,62 @@
+name: Sync JSONBin
+
+on:
+  workflow_dispatch:
+    inputs:
+      direction:
+        description: "pull = JSONBin -> repo, push = repo -> JSONBin"
+        required: true
+        default: pull
+        type: choice
+        options:
+          - pull
+          - push
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync from JSONBin to repo
+        if: ${{ github.event.inputs.direction == 'pull' }}
+        env:
+          JSONBIN_ACCESS_KEY: ${{ secrets.JSONBIN_ACCESS_KEY }}
+          JSONBIN_BIN_ID: ${{ secrets.JSONBIN_BIN_ID }}
+        run: |
+          mkdir -p data
+          curl -sS \
+            -H "X-Access-Key: ${JSONBIN_ACCESS_KEY}" \
+            "https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest" \
+            | python3 - <<'PY'
+import sys, json
+raw = json.load(sys.stdin)
+record = raw.get("record", raw)
+print(json.dumps(record, ensure_ascii=False, indent=2))
+PY
+          > data/state.json
+
+      - name: Sync from repo to JSONBin
+        if: ${{ github.event.inputs.direction == 'push' }}
+        env:
+          JSONBIN_ACCESS_KEY: ${{ secrets.JSONBIN_ACCESS_KEY }}
+          JSONBIN_BIN_ID: ${{ secrets.JSONBIN_BIN_ID }}
+        run: |
+          curl -sS -X PUT \
+            "https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}" \
+            -H "Content-Type: application/json" \
+            -H "X-Access-Key: ${JSONBIN_ACCESS_KEY}" \
+            --data-binary @data/state.json
+
+      - name: Commit pulled file
+        if: ${{ github.event.inputs.direction == 'pull' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/state.json
+          git commit -m "Sync state from JSONBin" || exit 0
+          git push
