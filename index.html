@@ -11,28 +11,43 @@
     --bg:#f4f3ee; --card:#ffffff; --ink:#26251f; --muted:#7c7a70;
     --line:#e3e1d7; --accent:#a35200; --yellow:#fff6db;
     --t0:#378ADD; --t1:#1D9E75; --t2:#7F77DD; --t3:#D85A30;
+    --gap-under-bg:rgba(216,90,48,.15);
+    --gap-over-bg:rgba(55,138,221,.13);
+    --gap-ok-bg:rgba(29,158,117,.15);
   }
   @media (prefers-color-scheme: dark){
-    :root{--bg:#1c1b18;--card:#26251f;--ink:#ecebe3;--muted:#9a988d;--line:#3a382f;--yellow:#3a3320;}
+    :root{
+      --bg:#1c1b18;--card:#26251f;--ink:#ecebe3;--muted:#9a988d;--line:#3a382f;--yellow:#3a3320;
+      --gap-under-bg:rgba(216,90,48,.32);
+      --gap-over-bg:rgba(55,138,221,.30);
+      --gap-ok-bg:rgba(29,158,117,.32);
+    }
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-    background:var(--bg);color:var(--ink);font-size:16px;line-height:1.45;padding:14px 12px 40px;max-width:520px;margin:0 auto}
+  body{
+    margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);font-size:16px;line-height:1.45;
+    padding:14px 12px 40px;max-width:520px;margin:0 auto
+  }
   h1{font-size:18px;margin:4px 0 14px;font-weight:600}
   h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:18px 0 8px;font-weight:600}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
   .dot{width:11px;height:11px;border-radius:50%;display:inline-block;flex:none}
   .row{display:flex;align-items:center;gap:10px;padding:7px 0}
   .row .name{flex:1;font-weight:500}
-  input[type=number]{width:64px;font-size:17px;text-align:center;padding:9px 4px;border:1px solid var(--line);
-    border-radius:10px;background:var(--yellow);color:var(--ink);font-weight:600}
+  input[type=number]{
+    width:64px;font-size:17px;text-align:center;padding:9px 4px;border:1px solid var(--line);
+    border-radius:10px;background:var(--yellow);color:var(--ink);font-weight:600
+  }
   input[type=number]:focus{outline:2px solid var(--accent);outline-offset:0}
   .big-in{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0}
   .big-in label{font-size:15px}
   .big-in input{width:84px;font-size:20px}
   .stepper{display:flex;align-items:center;gap:8px}
-  .stepper button{width:42px;height:42px;font-size:22px;border:1px solid var(--line);background:var(--card);
-    color:var(--ink);border-radius:10px;font-weight:600}
+  .stepper button{
+    width:42px;height:42px;font-size:22px;border:1px solid var(--line);background:var(--card);
+    color:var(--ink);border-radius:10px;font-weight:600
+  }
   .toggle{display:flex;align-items:center;gap:10px;padding:10px 0;font-size:14px;color:var(--muted)}
   .toggle input{width:20px;height:20px}
   .res{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -44,21 +59,96 @@
   .warn{color:var(--t3);font-weight:600}
   .totline{text-align:center;color:var(--muted);font-size:13px;margin:12px 0 2px}
   .btns{display:flex;gap:10px;margin-top:14px}
-  .btn{flex:1;padding:14px;border-radius:12px;border:none;font-size:15px;font-weight:600;color:#fff;background:var(--accent)}
+  .btn{
+    flex:1;padding:14px;border-radius:12px;border:none;font-size:15px;font-weight:600;
+    color:#fff;background:var(--accent)
+  }
+  .btn:disabled{opacity:.55}
   .btn.sec{background:transparent;color:var(--muted);border:1px solid var(--line)}
   .foot{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-height:1.6}
   .gap{font-size:11px;padding:1px 7px;border-radius:20px;margin-left:auto}
-  .gap.under{background:rgba(216,90,48,.15);color:var(--t3)}
-  .gap.over{background:rgba(55,138,221,.13);color:var(--t0)}
-  .gap.ok{background:rgba(29,158,117,.15);color:var(--t1)}
+  .gap.under{background:var(--gap-under-bg);color:var(--t3)}
+  .gap.over{background:var(--gap-over-bg);color:var(--t0)}
+  .gap.ok{background:var(--gap-ok-bg);color:var(--t1)}
+  details.dd{position:relative}
+  details.dd summary{
+    cursor:pointer;
+    user-select:none;
+    list-style:none;
+    font-weight:600;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:12px 14px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    font-size:14px;
+  }
+  details.dd summary::-webkit-details-marker{display:none}
+  details.dd summary::after{
+    content:'';
+    width:9px;height:9px;
+    border-right:2px solid var(--muted);
+    border-bottom:2px solid var(--muted);
+    transform:rotate(45deg);
+    transition:transform .2s;
+    margin-right:4px;
+  }
+  details.dd[open] summary::after{transform:rotate(-135deg)}
+  details.dd[open] summary{
+    border-bottom-left-radius:0;
+    border-bottom-right-radius:0;
+    border-bottom-color:transparent;
+  }
+  details.dd .ddBody{
+    border:1px solid var(--line);
+    border-top:none;
+    border-bottom-left-radius:10px;
+    border-bottom-right-radius:10px;
+    padding:14px;
+    background:var(--card);
+  }
+  .cloudBox{margin-top:0}
+  .cloudLabel{display:block;font-size:13px;color:var(--muted);margin:8px 0 6px}
+  .cloudInput{
+    width:100%;padding:12px 10px;border:1px solid var(--line);border-radius:10px;
+    background:var(--yellow);color:var(--ink);font-size:15px
+  }
+  .cloudMini{
+    margin-top:8px;font-size:12px;color:var(--muted);line-height:1.5
+  }
+  .cloudStatus{
+    margin-top:10px;font-size:12px;color:var(--muted);text-align:center;line-height:1.5
+  }
 </style>
 </head>
 <body>
 <h1>Chia đơn cho 4 team</h1>
-
+<h2 id="cloudHead">Đăng nhập / Cloud</h2>
+<details class="dd" id="cloudPanel">
+  <summary>Nhập key + Bin ID để bật Sync / Save</summary>
+  <div class="ddBody">
+    <div class="cloudBox">
+      <label class="cloudLabel" for="keyInput">JSONBin Access Key</label>
+      <input id="keyInput" class="cloudInput" type="password" placeholder="Dán Access Key vào đây" autocomplete="off">
+      <label class="cloudLabel" for="binIdInput">JSONBin Bin ID</label>
+      <input id="binIdInput" class="cloudInput" type="text" placeholder="Dán Bin ID vào đây" autocomplete="off">
+      <div class="btns" style="margin-top:10px">
+        <button class="btn" id="keySaveBtn">Lưu</button>
+        <button class="btn sec" id="keyClearBtn">Xoá</button>
+      </div>
+      <div class="cloudMini">
+        Nếu không có cả 2, app sẽ chỉ lưu dữ liệu trên máy này bằng localStorage.
+      </div>
+      <div class="cloudStatus" id="cloudStatus">Đang kiểm tra...</div>
+    </div>
+  </div>
+</details>
 <h2>Hiện có (số đã chia)</h2>
 <div class="card" id="curCard"></div>
-
 <h2>Đợt mới</h2>
 <div class="card">
   <div class="big-in">
@@ -71,24 +161,31 @@
   </div>
   <div class="toggle"><input id="even" type="checkbox"><label for="even">Chia đều đơn giá cao cho 4 team</label></div>
 </div>
-
 <h2>Đợt này giao</h2>
 <div class="res" id="res"></div>
 <div class="totline" id="tot"></div>
-
 <div class="btns">
   <button class="btn" id="apply">✓ Cộng dồn đợt này vào tổng</button>
+</div>
+<div class="btns" id="undoWrap" style="display:none">
+  <button class="btn sec" id="undoBtn">↶ Hoàn tác thao tác vừa rồi</button>
 </div>
 <div class="btns">
   <button class="btn sec" id="reset">↺ Về mốc gốc (89 đơn)</button>
   <button class="btn sec" id="zero">Xoá hết về 0</button>
 </div>
-
+<div class="btns" id="cloudBtns" style="display:none">
+  <button class="btn" id="syncBtn">⇄ Sync</button>
+  <button class="btn" id="saveBtn">Save</button>
+</div>
+<div id="cloudStatusOnly" class="cloudStatus" style="display:none"></div>
+<div id="changeKeyWrap" style="display:none;text-align:center;margin-top:8px">
+  <a href="#" id="changeKeyLink" style="font-size:12px;color:var(--muted);text-decoration:underline">Đổi / xoá key</a>
+</div>
 <div class="foot">
   Tỉ lệ mục tiêu — TGDĐ 30% · ĐMX 44% · Zalo/FB 21% · Topzone 5%.<br>
-  Số liệu được lưu ngay trên máy này. Thêm vào Màn hình chính để dùng như một app.
+  Có key + Bin ID thì sync cloud, không có thì lưu local trên máy.
 </div>
-
 <script>
 (function(){
   var teams=[
@@ -98,24 +195,164 @@
     {n:'Topzone',r:0.05,c:'#D85A30'}
   ];
   var BASE={tot:[25,31,22,11],hv:[11,10,10,2]};
-  var state;
-  try{ state=JSON.parse(localStorage.getItem('chiadon_state')); }catch(e){}
-  if(!state||!state.tot){ state={tot:BASE.tot.slice(),hv:BASE.hv.slice()}; }
+  var STORAGE_KEY='chiadon_state';
+  var KEY_STORAGE='jsonbin_access_key';
+  var BINID_STORAGE='jsonbin_bin_id';
+  var TS_TOLERANCE=1000; // ms
 
-  function save(){ try{ localStorage.setItem('chiadon_state',JSON.stringify(state)); }catch(e){} }
-  function $(id){return document.getElementById(id);}
-  var mEl=$('m'),hEl=$('h'),evenEl=$('even');
-  function gv(el){var v=parseInt(el.value||'0',10);return (isNaN(v)||v<0)?0:v;}
+  function $(id){ return document.getElementById(id); }
+
+  function clampHvOnState(s){
+    for(var i=0;i<4;i++){
+      if(s.hv[i] > s.tot[i]) s.hv[i] = s.tot[i];
+      if(s.hv[i] < 0) s.hv[i] = 0;
+      if(s.tot[i] < 0) s.tot[i] = 0;
+    }
+    return s;
+  }
+
+  var state;
+  try{ state=JSON.parse(localStorage.getItem(STORAGE_KEY)); }catch(e){}
+  if(!state||!state.tot||!state.hv){
+    state={tot:BASE.tot.slice(),hv:BASE.hv.slice(),even:false,updatedAt:Date.now()};
+  }
+  if(typeof state.even !== 'boolean') state.even = false;
+  if(!state.updatedAt) state.updatedAt=Date.now();
+  clampHvOnState(state);
+
+  // Snapshot for Undo
+  var lastSnapshot = null;
+  // Cờ ép hiện panel (khi user bấm "Đổi / xoá key")
+  var forceShowPanel = false;
+
+  var mEl=$('m'), hEl=$('h'), evenEl=$('even');
+  var cloudPanel=$('cloudPanel');
+  var cloudHead=$('cloudHead');
+  var keyInput=$('keyInput');
+  var binIdInput=$('binIdInput');
+  var keySaveBtn=$('keySaveBtn');
+  var keyClearBtn=$('keyClearBtn');
+  var cloudStatus=$('cloudStatus');
+  var cloudStatusOnly=$('cloudStatusOnly');
+  var cloudBtns=$('cloudBtns');
+  var syncBtn=$('syncBtn');
+  var saveBtn=$('saveBtn');
+  var changeKeyWrap=$('changeKeyWrap');
+  var changeKeyLink=$('changeKeyLink');
+  var undoWrap=$('undoWrap');
+  var undoBtn=$('undoBtn');
+
+  function setCloudMsg(msg){
+    cloudStatus.textContent=msg;
+    cloudStatusOnly.textContent=msg;
+  }
+
+  function gv(el){
+    var v=parseInt(el.value||'0',10);
+    return (isNaN(v)||v<0)?0:v;
+  }
+
+  function saveLocal(){
+    try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+  }
+
+  // Debounced save for keystrokes
+  var saveTimer=null;
+  function touch(){
+    state.updatedAt=Date.now();
+    if(saveTimer) clearTimeout(saveTimer);
+    saveTimer=setTimeout(function(){ saveLocal(); saveTimer=null; }, 300);
+  }
+  // Immediate save for major events (apply, reset, undo, etc.)
+  function touchNow(){
+    state.updatedAt=Date.now();
+    if(saveTimer){ clearTimeout(saveTimer); saveTimer=null; }
+    saveLocal();
+  }
+
+  function getKey(){ return (localStorage.getItem(KEY_STORAGE)||'').trim(); }
+  function getBinId(){ return (localStorage.getItem(BINID_STORAGE)||'').trim(); }
+  function hasCloud(){ return !!getKey() && !!getBinId(); }
+
+  function updateCloudUI(){
+    var key=getKey();
+    var binId=getBinId();
+    var cloudOn = hasCloud() && !forceShowPanel;
+    if(!cloudOn){
+      // Hiện panel để nhập
+      keyInput.value=key;
+      binIdInput.value=binId;
+      cloudHead.style.display='';
+      cloudPanel.style.display='';
+      cloudBtns.style.display='none';
+      cloudStatusOnly.style.display='none';
+      changeKeyWrap.style.display='none';
+      if(!key && !binId) setCloudMsg('Chưa có cloud. Dữ liệu chỉ lưu trên máy này.');
+      else if(!key) setCloudMsg('Còn thiếu Access Key.');
+      else if(!binId) setCloudMsg('Còn thiếu Bin ID.');
+      else setCloudMsg('Sửa key / Bin ID rồi bấm Lưu.');
+      return;
+    }
+    // Đủ key + bin: ẩn panel, không pre-fill input (vì panel ẩn)
+    keyInput.value='';
+    binIdInput.value='';
+    cloudHead.style.display='none';
+    cloudPanel.style.display='none';
+    cloudPanel.open=false;
+    cloudBtns.style.display='flex';
+    cloudStatusOnly.style.display='block';
+    changeKeyWrap.style.display='block';
+    setCloudMsg('Đã có key + Bin ID. Bấm Sync để lấy về, Save để đẩy lên.');
+  }
+
+  function normalizeState(s){
+    s=s||{};
+    function arr4(x){
+      x=Array.isArray(x)?x:[0,0,0,0];
+      return [
+        parseInt(x[0]||0,10)||0,
+        parseInt(x[1]||0,10)||0,
+        parseInt(x[2]||0,10)||0,
+        parseInt(x[3]||0,10)||0
+      ];
+    }
+    var ns = {
+      tot: arr4(s.tot),
+      hv: arr4(s.hv),
+      even: !!s.even,
+      updatedAt: parseInt(s.updatedAt||0,10)||0
+    };
+    clampHvOnState(ns);
+    return ns;
+  }
 
   function allocate(tot,hv,m,h,even){
-    tot=tot.slice();hv=hv.slice();var addT=[0,0,0,0],addH=[0,0,0,0];
+    tot=tot.slice(); hv=hv.slice();
+    var addT=[0,0,0,0], addH=[0,0,0,0];
     h=Math.min(h,m);
-    for(var k=0;k<h;k++){var gh=hv[0]+hv[1]+hv[2]+hv[3],b=0,bd=-1e18;
-      for(var i=0;i<4;i++){var rr=even?0.25:teams[i].r;var d=rr*(gh+1)-hv[i]+(3-i)*1e-9;if(d>bd){bd=d;b=i;}}
-      hv[b]++;tot[b]++;addH[b]++;addT[b]++;}
-    for(var k2=0;k2<m-h;k2++){var gt=tot[0]+tot[1]+tot[2]+tot[3],b2=0,bd2=-1e18;
-      for(var j=0;j<4;j++){var d2=teams[j].r*(gt+1)-tot[j]+(3-j)*1e-9;if(d2>bd2){bd2=d2;b2=j;}}
-      tot[b2]++;addT[b2]++;}
+    // Rotate tie-break start so team 0 không bị thiên vị
+    var rot=(tot[0]+tot[1]+tot[2]+tot[3]) % 4;
+    for(var k=0;k<h;k++){
+      var gh=hv[0]+hv[1]+hv[2]+hv[3], b=-1, bd=-Infinity;
+      for(var ii=0;ii<4;ii++){
+        var i=(ii+rot)%4;
+        var rr=even?0.25:teams[i].r;
+        var d=rr*(gh+1)-hv[i];
+        if(d>bd){ bd=d; b=i; }
+      }
+      hv[b]++; tot[b]++; addH[b]++; addT[b]++;
+      rot=(rot+1)%4;
+    }
+    for(var k2=0;k2<m-h;k2++){
+      var gt=tot[0]+tot[1]+tot[2]+tot[3], b2=-1, bd2=-Infinity;
+      for(var jj=0;jj<4;jj++){
+        var j=(jj+rot)%4;
+        var d2=teams[j].r*(gt+1)-tot[j];
+        if(d2>bd2){ bd2=d2; b2=j; }
+      }
+      tot[b2]++; addT[b2]++;
+      rot=(rot+1)%4;
+    }
     return {addT:addT,addH:addH,tot:tot,hv:hv};
   }
 
@@ -126,26 +363,62 @@
       var target=grand*t.r, diff=state.tot[i]-target, cls='ok', txt='đúng tỉ lệ';
       if(diff<=-1){cls='under';txt='thiếu '+Math.abs(Math.round(diff));}
       else if(diff>=1){cls='over';txt='dư '+Math.round(diff);}
-      html+='<div class="row"><span class="dot" style="background:'+t.c+'"></span>'
+      html+='<div class="row" data-row="'+i+'"><span class="dot" style="background:'+t.c+'"></span>'
         +'<span class="name">'+t.n+'</span>'
         +'<input type="number" inputmode="numeric" min="0" data-k="tot" data-i="'+i+'" value="'+state.tot[i]+'">'
         +'<input type="number" inputmode="numeric" min="0" data-k="hv" data-i="'+i+'" value="'+state.hv[i]+'" style="background:transparent">'
         +'<span class="gap '+cls+'">'+txt+'</span></div>';
     });
-    html+='<div class="totline" style="margin:8px 0 0">Tổng: '+grand+' đơn · '+state.hv.reduce(function(a,b){return a+b;},0)+' giá cao &nbsp;|&nbsp; ô trái = Tổng, ô phải = Giá cao</div>';
+    html+='<div class="totline" id="curTot" style="margin:8px 0 0">Tổng: '+grand+' đơn · '+state.hv.reduce(function(a,b){return a+b;},0)+' giá cao &nbsp;|&nbsp; ô trái = Tổng, ô phải = Giá cao</div>';
     $('curCard').innerHTML=html;
     $('curCard').querySelectorAll('input').forEach(function(inp){
       inp.addEventListener('input',function(){
-        var k=inp.getAttribute('data-k'),i=+inp.getAttribute('data-i');
-        var v=parseInt(inp.value||'0',10);if(isNaN(v)||v<0)v=0;
-        state[k][i]=v; save(); renderResult(); 
+        var k=inp.getAttribute('data-k'), i=+inp.getAttribute('data-i');
+        var v=parseInt(inp.value||'0',10); if(isNaN(v)||v<0) v=0;
+        state[k][i]=v;
+        // Clamp hv ≤ tot — chỉ silently fix state, không đụng input đang gõ
+        if(state.hv[i] > state.tot[i]){
+          state.hv[i] = state.tot[i];
+        }
+        touch();
+        updateBadges();
+        renderResult();
       });
-      inp.addEventListener('blur',renderCurrent);
+      // Khi blur (event "change" trên type=number) thì đồng bộ ô kia (nếu đã clamp)
+      inp.addEventListener('change',function(){
+        var i=+inp.getAttribute('data-i');
+        var totInp=$('curCard').querySelector('input[data-k="tot"][data-i="'+i+'"]');
+        var hvInp=$('curCard').querySelector('input[data-k="hv"][data-i="'+i+'"]');
+        if(totInp && document.activeElement!==totInp) totInp.value=state.tot[i];
+        if(hvInp && document.activeElement!==hvInp) hvInp.value=state.hv[i];
+        updateBadges();
+      });
     });
   }
 
+  // Chỉ refresh badges + totline, KHÔNG rebuild input → không mất focus khi tab
+  function updateBadges(){
+    var grand=state.tot.reduce(function(a,b){return a+b;},0);
+    var rows=$('curCard').querySelectorAll('.row');
+    for(var i=0;i<rows.length && i<4;i++){
+      var gap=rows[i].querySelector('.gap');
+      if(!gap) continue;
+      var target=grand*teams[i].r;
+      var diff=state.tot[i]-target;
+      var cls='ok', txt='đúng tỉ lệ';
+      if(diff<=-1){ cls='under'; txt='thiếu '+Math.abs(Math.round(diff)); }
+      else if(diff>=1){ cls='over'; txt='dư '+Math.round(diff); }
+      gap.className='gap '+cls;
+      gap.textContent=txt;
+    }
+    var totEl=$('curTot');
+    if(totEl){
+      totEl.innerHTML='Tổng: '+grand+' đơn · '+state.hv.reduce(function(a,b){return a+b;},0)+' giá cao &nbsp;|&nbsp; ô trái = Tổng, ô phải = Giá cao';
+    }
+  }
+
   function renderResult(){
-    var m=gv(mEl),h=Math.min(gv(hEl),m),even=evenEl.checked;
+    var m=gv(mEl), h=Math.min(gv(hEl),m), even=evenEl.checked;
     var R=allocate(state.tot,state.hv,m,h,even);
     var html='';
     teams.forEach(function(t,i){
@@ -160,35 +433,245 @@
     window._lastR=R;
   }
 
-  function step(el,d){var v=gv(el)+d;if(v<0)v=0;el.value=v;renderResult();}
-  $('mMinus').onclick=function(){step(mEl,-1);};
-  $('mPlus').onclick=function(){step(mEl,1);};
-  $('hMinus').onclick=function(){step(hEl,-1);};
-  $('hPlus').onclick=function(){step(hEl,1);};
-  mEl.addEventListener('input',renderResult);
-  hEl.addEventListener('input',renderResult);
-  evenEl.addEventListener('change',renderResult);
+  function fmtTime(ts){
+    if(!ts) return '?';
+    try{ return new Date(ts).toLocaleString(); }catch(e){ return String(ts); }
+  }
+
+  function mapHttpErr(status, text){
+    if(status===401||status===403) return 'Key không hợp lệ hoặc không có quyền (HTTP '+status+')';
+    if(status===404) return 'Không tìm thấy Bin ID (HTTP 404)';
+    if(status===429) return 'Vượt giới hạn JSONBin (HTTP 429)';
+    if(status>=500) return 'JSONBin lỗi server (HTTP '+status+')';
+    return 'HTTP '+status+(text?(' - '+text):'');
+  }
+
+  async function pullRemote(){
+    var key=getKey(), binId=getBinId();
+    if(!key) throw new Error('Chưa có Access Key');
+    if(!binId) throw new Error('Chưa có Bin ID');
+    var res = await fetch('https://api.jsonbin.io/v3/b/'+binId+'/latest', {
+      method:'GET',
+      headers:{ 'X-Access-Key': key, 'Accept':'application/json' }
+    });
+    if(!res.ok){
+      var text=''; try{ text=await res.text(); }catch(e){}
+      throw new Error(mapHttpErr(res.status, text));
+    }
+    var data=await res.json();
+    return normalizeState(data.record || data);
+  }
+
+  async function pushRemote(){
+    var key=getKey(), binId=getBinId();
+    if(!key) throw new Error('Chưa có Access Key');
+    if(!binId) throw new Error('Chưa có Bin ID');
+    var payload = {
+      tot: state.tot.slice(),
+      hv: state.hv.slice(),
+      even: !!state.even,
+      updatedAt: Date.now()
+    };
+    var res = await fetch('https://api.jsonbin.io/v3/b/'+binId, {
+      method:'PUT',
+      headers:{ 'Content-Type':'application/json', 'X-Access-Key': key },
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok){
+      var text=''; try{ text=await res.text(); }catch(e){}
+      throw new Error(mapHttpErr(res.status, text));
+    }
+    // Chỉ cập nhật timestamp local khi push thành công
+    state.updatedAt = payload.updatedAt;
+    saveLocal();
+  }
+
+  async function syncNow(){
+    if(!hasCloud()){ setCloudMsg('Chưa có key hoặc Bin ID.'); return; }
+    syncBtn.disabled=true; saveBtn.disabled=true;
+    setCloudMsg('Đang Sync từ JSONBin...');
+    try{
+      var remote = await pullRemote();
+      // Nếu local mới hơn remote — confirm trước khi đè
+      if(state.updatedAt > remote.updatedAt + TS_TOLERANCE){
+        var msg = 'Local ('+fmtTime(state.updatedAt)+') mới hơn remote ('+fmtTime(remote.updatedAt)+').\n'
+          + 'Kéo về sẽ MẤT thay đổi local. Tiếp tục?';
+        if(!confirm(msg)){ setCloudMsg('Đã huỷ Sync.'); return; }
+        // Snapshot để Undo nếu lỡ tay
+        lastSnapshot = JSON.parse(JSON.stringify(state));
+        showUndo();
+      }
+      state = remote;
+      evenEl.checked = !!state.even;
+      saveLocal();
+      renderCurrent();
+      renderResult();
+      setCloudMsg('Đã lấy về máy. Remote update: '+fmtTime(state.updatedAt));
+    }catch(err){
+      setCloudMsg('Sync lỗi: '+err.message);
+    }finally{
+      syncBtn.disabled=false; saveBtn.disabled=false;
+    }
+  }
+
+  async function saveNow(){
+    if(!hasCloud()){ setCloudMsg('Chưa có key hoặc Bin ID.'); return; }
+    syncBtn.disabled=true; saveBtn.disabled=true;
+    setCloudMsg('Đang kiểm tra remote...');
+    try{
+      // Pre-flight: pull để check remote có mới hơn không
+      var remote=null;
+      try{
+        remote = await pullRemote();
+      }catch(e){
+        // Bin chưa có data hoặc 404 — bỏ qua, push lên là OK
+        var msg=e.message||'';
+        if(msg.indexOf('404')===-1 && msg.indexOf('Không tìm thấy')===-1){
+          throw e;
+        }
+      }
+      if(remote && remote.updatedAt > state.updatedAt + TS_TOLERANCE){
+        var ask = 'Remote ('+fmtTime(remote.updatedAt)+') mới hơn local ('+fmtTime(state.updatedAt)+').\n'
+          + 'Đẩy lên sẽ GHI ĐÈ remote. Tiếp tục?';
+        if(!confirm(ask)){ setCloudMsg('Đã huỷ Save.'); return; }
+      }
+      setCloudMsg('Đang Save lên JSONBin...');
+      await pushRemote();
+      setCloudMsg('Đã lưu lên JSONBin lúc: '+fmtTime(state.updatedAt));
+    }catch(err){
+      setCloudMsg('Save lỗi: '+err.message);
+    }finally{
+      syncBtn.disabled=false; saveBtn.disabled=false;
+    }
+  }
+
+  function step(el,d){
+    var v=gv(el)+d;
+    if(v<0)v=0;
+    el.value=v;
+    // Clamp h ≤ m
+    var m=gv(mEl), h=gv(hEl);
+    if(h>m) hEl.value=m;
+    renderResult();
+  }
+
+  function showUndo(){
+    undoWrap.style.display = lastSnapshot ? 'flex' : 'none';
+  }
+  function takeSnapshot(){
+    lastSnapshot = JSON.parse(JSON.stringify(state));
+    showUndo();
+  }
+
+  // Wire up
+  $('mMinus').onclick=function(){ step(mEl,-1); };
+  $('mPlus').onclick=function(){ step(mEl,1); };
+  $('hMinus').onclick=function(){ step(hEl,-1); };
+  $('hPlus').onclick=function(){ step(hEl,1); };
+
+  mEl.addEventListener('input',function(){
+    var m=gv(mEl), h=gv(hEl);
+    if(h>m) hEl.value=m;
+    renderResult();
+  });
+  hEl.addEventListener('input',function(){
+    var m=gv(mEl), h=gv(hEl);
+    if(h>m) hEl.value=m;
+    renderResult();
+  });
+
+  // Khôi phục checkbox "even" từ state
+  evenEl.checked = !!state.even;
+  evenEl.addEventListener('change',function(){
+    state.even = evenEl.checked;
+    touch();
+    renderResult();
+  });
 
   $('apply').onclick=function(){
     var R=window._lastR; if(!R) return;
-    if((R.addT[0]+R.addT[1]+R.addT[2]+R.addT[3])===0){return;}
-    state.tot=R.tot.slice(); state.hv=R.hv.slice(); save();
+    if((R.addT[0]+R.addT[1]+R.addT[2]+R.addT[3])===0){ return; }
+    takeSnapshot();
+    state.tot=R.tot.slice();
+    state.hv=R.hv.slice();
+    touchNow();
     mEl.value=0; hEl.value=0;
-    renderCurrent(); renderResult();
+    renderCurrent();
+    renderResult();
     window.scrollTo({top:0,behavior:'smooth'});
   };
+
+  undoBtn.onclick=function(){
+    if(!lastSnapshot) return;
+    state = JSON.parse(JSON.stringify(lastSnapshot));
+    lastSnapshot = null;
+    touchNow();
+    evenEl.checked = !!state.even;
+    renderCurrent();
+    renderResult();
+    showUndo();
+  };
+
   $('reset').onclick=function(){
     if(confirm('Đưa số liệu về mốc gốc 89 đơn?')){
-      state={tot:BASE.tot.slice(),hv:BASE.hv.slice()};save();mEl.value=0;hEl.value=0;renderCurrent();renderResult();
+      takeSnapshot();
+      state={tot:BASE.tot.slice(),hv:BASE.hv.slice(),even:false,updatedAt:Date.now()};
+      touchNow();
+      mEl.value=0; hEl.value=0;
+      evenEl.checked=false;
+      renderCurrent();
+      renderResult();
     }
   };
   $('zero').onclick=function(){
     if(confirm('Xoá tất cả về 0?')){
-      state={tot:[0,0,0,0],hv:[0,0,0,0]};save();mEl.value=0;hEl.value=0;renderCurrent();renderResult();
+      takeSnapshot();
+      state={tot:[0,0,0,0],hv:[0,0,0,0],even:false,updatedAt:Date.now()};
+      touchNow();
+      mEl.value=0; hEl.value=0;
+      evenEl.checked=false;
+      renderCurrent();
+      renderResult();
     }
   };
 
-  renderCurrent(); renderResult();
+  keySaveBtn.onclick=function(){
+    var key=keyInput.value.trim();
+    var binId=binIdInput.value.trim();
+    if(key) localStorage.setItem(KEY_STORAGE, key);
+    else localStorage.removeItem(KEY_STORAGE);
+    if(binId) localStorage.setItem(BINID_STORAGE, binId);
+    else localStorage.removeItem(BINID_STORAGE);
+    forceShowPanel = false;
+    updateCloudUI();
+    if(key && binId){
+      setCloudMsg('Đã lưu key + Bin ID vào máy này.');
+    }
+  };
+  keyClearBtn.onclick=function(){
+    keyInput.value=''; binIdInput.value='';
+    localStorage.removeItem(KEY_STORAGE);
+    localStorage.removeItem(BINID_STORAGE);
+    forceShowPanel = false;
+    updateCloudUI();
+    setCloudMsg('Đã xoá key + Bin ID. App lưu local.');
+  };
+  syncBtn.onclick=function(){ syncNow(); };
+  saveBtn.onclick=function(){ saveNow(); };
+  changeKeyLink.onclick=function(e){
+    e.preventDefault();
+    forceShowPanel = true;
+    updateCloudUI();
+    // Pre-fill giá trị hiện tại để user thấy
+    keyInput.value = getKey();
+    binIdInput.value = getBinId();
+    cloudPanel.open = true;
+    setCloudMsg('Sửa key / Bin ID rồi Lưu, hoặc Xoá để bỏ.');
+  };
+
+  updateCloudUI();
+  renderCurrent();
+  renderResult();
 })();
 </script>
 </body>
