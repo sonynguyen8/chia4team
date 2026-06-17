@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Chia đơn">
+<title>Chia đơn 4 team</title>
+<style>
+  :root{
+    --bg:#f4f3ee; --card:#ffffff; --ink:#26251f; --muted:#7c7a70;
+    --line:#e3e1d7; --accent:#a35200; --yellow:#fff6db;
+    --t0:#378ADD; --t1:#1D9E75; --t2:#7F77DD; --t3:#D85A30;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{--bg:#1c1b18;--card:#26251f;--ink:#ecebe3;--muted:#9a988d;--line:#3a382f;--yellow:#3a3320;}
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);font-size:16px;line-height:1.45;padding:14px 12px 40px;max-width:520px;margin:0 auto}
+  h1{font-size:18px;margin:4px 0 14px;font-weight:600}
+  h2{font-size:13px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:18px 0 8px;font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+  .dot{width:11px;height:11px;border-radius:50%;display:inline-block;flex:none}
+  .row{display:flex;align-items:center;gap:10px;padding:7px 0}
+  .row .name{flex:1;font-weight:500}
+  input[type=number]{width:64px;font-size:17px;text-align:center;padding:9px 4px;border:1px solid var(--line);
+    border-radius:10px;background:var(--yellow);color:var(--ink);font-weight:600}
+  input[type=number]:focus{outline:2px solid var(--accent);outline-offset:0}
+  .big-in{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0}
+  .big-in label{font-size:15px}
+  .big-in input{width:84px;font-size:20px}
+  .stepper{display:flex;align-items:center;gap:8px}
+  .stepper button{width:42px;height:42px;font-size:22px;border:1px solid var(--line);background:var(--card);
+    color:var(--ink);border-radius:10px;font-weight:600}
+  .toggle{display:flex;align-items:center;gap:10px;padding:10px 0;font-size:14px;color:var(--muted)}
+  .toggle input{width:20px;height:20px}
+  .res{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .rc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .rc .top{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-weight:600;font-size:14px}
+  .rc .plus{font-size:30px;font-weight:700;line-height:1}
+  .rc .sub{font-size:12px;color:var(--muted);margin-top:3px}
+  .rc .cum{font-size:11px;color:var(--muted);margin-top:7px;border-top:1px dashed var(--line);padding-top:6px}
+  .warn{color:var(--t3);font-weight:600}
+  .totline{text-align:center;color:var(--muted);font-size:13px;margin:12px 0 2px}
+  .btns{display:flex;gap:10px;margin-top:14px}
+  .btn{flex:1;padding:14px;border-radius:12px;border:none;font-size:15px;font-weight:600;color:#fff;background:var(--accent)}
+  .btn.sec{background:transparent;color:var(--muted);border:1px solid var(--line)}
+  .foot{color:var(--muted);font-size:12px;text-align:center;margin-top:22px;line-height:1.6}
+  .gap{font-size:11px;padding:1px 7px;border-radius:20px;margin-left:auto}
+  .gap.under{background:rgba(216,90,48,.15);color:var(--t3)}
+  .gap.over{background:rgba(55,138,221,.13);color:var(--t0)}
+  .gap.ok{background:rgba(29,158,117,.15);color:var(--t1)}
+</style>
+</head>
+<body>
+<h1>Chia đơn cho 4 team</h1>
+
+<h2>Hiện có (số đã chia)</h2>
+<div class="card" id="curCard"></div>
+
+<h2>Đợt mới</h2>
+<div class="card">
+  <div class="big-in">
+    <label for="m">Số đơn mới</label>
+    <div class="stepper"><button id="mMinus">−</button><input id="m" type="number" inputmode="numeric" min="0" value="0"><button id="mPlus">+</button></div>
+  </div>
+  <div class="big-in" style="border-top:1px solid var(--line)">
+    <label for="h">Trong đó giá cao</label>
+    <div class="stepper"><button id="hMinus">−</button><input id="h" type="number" inputmode="numeric" min="0" value="0"><button id="hPlus">+</button></div>
+  </div>
+  <div class="toggle"><input id="even" type="checkbox"><label for="even">Chia đều đơn giá cao cho 4 team</label></div>
+</div>
+
+<h2>Đợt này giao</h2>
+<div class="res" id="res"></div>
+<div class="totline" id="tot"></div>
+
+<div class="btns">
+  <button class="btn" id="apply">✓ Cộng dồn đợt này vào tổng</button>
+</div>
+<div class="btns">
+  <button class="btn sec" id="reset">↺ Về mốc gốc (89 đơn)</button>
+  <button class="btn sec" id="zero">Xoá hết về 0</button>
+</div>
+
+<div class="foot">
+  Tỉ lệ mục tiêu — TGDĐ 30% · ĐMX 44% · Zalo/FB 21% · Topzone 5%.<br>
+  Số liệu được lưu ngay trên máy này. Thêm vào Màn hình chính để dùng như một app.
+</div>
+
+<script>
+(function(){
+  var teams=[
+    {n:'TGDĐ',r:0.30,c:'#378ADD'},
+    {n:'ĐMX',r:0.44,c:'#1D9E75'},
+    {n:'Zalo/FB',r:0.21,c:'#7F77DD'},
+    {n:'Topzone',r:0.05,c:'#D85A30'}
+  ];
+  var BASE={tot:[25,31,22,11],hv:[11,10,10,2]};
+  var state;
+  try{ state=JSON.parse(localStorage.getItem('chiadon_state')); }catch(e){}
+  if(!state||!state.tot){ state={tot:BASE.tot.slice(),hv:BASE.hv.slice()}; }
+
+  function save(){ try{ localStorage.setItem('chiadon_state',JSON.stringify(state)); }catch(e){} }
+  function $(id){return document.getElementById(id);}
+  var mEl=$('m'),hEl=$('h'),evenEl=$('even');
+  function gv(el){var v=parseInt(el.value||'0',10);return (isNaN(v)||v<0)?0:v;}
+
+  function allocate(tot,hv,m,h,even){
+    tot=tot.slice();hv=hv.slice();var addT=[0,0,0,0],addH=[0,0,0,0];
+    h=Math.min(h,m);
+    for(var k=0;k<h;k++){var gh=hv[0]+hv[1]+hv[2]+hv[3],b=0,bd=-1e18;
+      for(var i=0;i<4;i++){var rr=even?0.25:teams[i].r;var d=rr*(gh+1)-hv[i]+(3-i)*1e-9;if(d>bd){bd=d;b=i;}}
+      hv[b]++;tot[b]++;addH[b]++;addT[b]++;}
+    for(var k2=0;k2<m-h;k2++){var gt=tot[0]+tot[1]+tot[2]+tot[3],b2=0,bd2=-1e18;
+      for(var j=0;j<4;j++){var d2=teams[j].r*(gt+1)-tot[j]+(3-j)*1e-9;if(d2>bd2){bd2=d2;b2=j;}}
+      tot[b2]++;addT[b2]++;}
+    return {addT:addT,addH:addH,tot:tot,hv:hv};
+  }
+
+  function renderCurrent(){
+    var grand=state.tot.reduce(function(a,b){return a+b;},0);
+    var html='';
+    teams.forEach(function(t,i){
+      var target=grand*t.r, diff=state.tot[i]-target, cls='ok', txt='đúng tỉ lệ';
+      if(diff<=-1){cls='under';txt='thiếu '+Math.abs(Math.round(diff));}
+      else if(diff>=1){cls='over';txt='dư '+Math.round(diff);}
+      html+='<div class="row"><span class="dot" style="background:'+t.c+'"></span>'
+        +'<span class="name">'+t.n+'</span>'
+        +'<input type="number" inputmode="numeric" min="0" data-k="tot" data-i="'+i+'" value="'+state.tot[i]+'">'
+        +'<input type="number" inputmode="numeric" min="0" data-k="hv" data-i="'+i+'" value="'+state.hv[i]+'" style="background:transparent">'
+        +'<span class="gap '+cls+'">'+txt+'</span></div>';
+    });
+    html+='<div class="totline" style="margin:8px 0 0">Tổng: '+grand+' đơn · '+state.hv.reduce(function(a,b){return a+b;},0)+' giá cao &nbsp;|&nbsp; ô trái = Tổng, ô phải = Giá cao</div>';
+    $('curCard').innerHTML=html;
+    $('curCard').querySelectorAll('input').forEach(function(inp){
+      inp.addEventListener('input',function(){
+        var k=inp.getAttribute('data-k'),i=+inp.getAttribute('data-i');
+        var v=parseInt(inp.value||'0',10);if(isNaN(v)||v<0)v=0;
+        state[k][i]=v; save(); renderResult(); 
+      });
+      inp.addEventListener('blur',renderCurrent);
+    });
+  }
+
+  function renderResult(){
+    var m=gv(mEl),h=Math.min(gv(hEl),m),even=evenEl.checked;
+    var R=allocate(state.tot,state.hv,m,h,even);
+    var html='';
+    teams.forEach(function(t,i){
+      var caoTxt=R.addH[i]>0?('<span class="warn">+'+R.addH[i]+' giá cao</span>'):'0 giá cao';
+      html+='<div class="rc"><div class="top"><span class="dot" style="background:'+t.c+'"></span>'+t.n+'</div>'
+        +'<div class="plus">+'+R.addT[i]+'</div>'
+        +'<div class="sub">'+caoTxt+'</div>'
+        +'<div class="cum">dồn: '+R.tot[i]+' đơn · '+R.hv[i]+' cao</div></div>';
+    });
+    $('res').innerHTML=html;
+    $('tot').textContent=m>0?('Tổng giao đợt này: '+R.addT.reduce(function(a,b){return a+b;},0)+' đơn · '+R.addH.reduce(function(a,b){return a+b;},0)+' giá cao'):'Nhập số đơn mới ở trên.';
+    window._lastR=R;
+  }
+
+  function step(el,d){var v=gv(el)+d;if(v<0)v=0;el.value=v;renderResult();}
+  $('mMinus').onclick=function(){step(mEl,-1);};
+  $('mPlus').onclick=function(){step(mEl,1);};
+  $('hMinus').onclick=function(){step(hEl,-1);};
+  $('hPlus').onclick=function(){step(hEl,1);};
+  mEl.addEventListener('input',renderResult);
+  hEl.addEventListener('input',renderResult);
+  evenEl.addEventListener('change',renderResult);
+
+  $('apply').onclick=function(){
+    var R=window._lastR; if(!R) return;
+    if((R.addT[0]+R.addT[1]+R.addT[2]+R.addT[3])===0){return;}
+    state.tot=R.tot.slice(); state.hv=R.hv.slice(); save();
+    mEl.value=0; hEl.value=0;
+    renderCurrent(); renderResult();
+    window.scrollTo({top:0,behavior:'smooth'});
+  };
+  $('reset').onclick=function(){
+    if(confirm('Đưa số liệu về mốc gốc 89 đơn?')){
+      state={tot:BASE.tot.slice(),hv:BASE.hv.slice()};save();mEl.value=0;hEl.value=0;renderCurrent();renderResult();
+    }
+  };
+  $('zero').onclick=function(){
+    if(confirm('Xoá tất cả về 0?')){
+      state={tot:[0,0,0,0],hv:[0,0,0,0]};save();mEl.value=0;hEl.value=0;renderCurrent();renderResult();
+    }
+  };
+
+  renderCurrent(); renderResult();
+})();
+</script>
+</body>
+</html>
